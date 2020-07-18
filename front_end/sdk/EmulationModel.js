@@ -83,9 +83,14 @@ export class EmulationModel extends SDKModel {
     this._touchEnabled = false;
     this._touchMobile = false;
     this._customTouchEnabled = false;
+    // this._touchConfiguration = {
+    //   enabled: false,
+    //   configuration: Protocol.Emulation.SetEmitTouchEventsForMouseRequestConfiguration.Mobile,
+    //   scriptId: ''
+    // };
     this._touchConfiguration = {
       enabled: false,
-      configuration: Protocol.Emulation.SetEmitTouchEventsForMouseRequestConfiguration.Mobile,
+      configuration: Protocol.Emulation.SetEmitTouchEventsForMouseRequestConfiguration.Desktop,
       scriptId: ''
     };
   }
