@@ -86,6 +86,10 @@ export class ScreenCaptureModel extends SDKModel {
    */
   screencastFrame({data, metadata, sessionId}) {
     this._agent.invoke_screencastFrameAck({sessionId});
+    console.log('Sync screen size', data, metadata, sessionId, this._agent); // NOTE: screen resize
+    // this._agent._target._router.sendMessage;
+    // this._agent._sendMessageToBackendPromise;
+    // debugger;
     if (this._onScreencastFrame) {
       this._onScreencastFrame.call(null, data, metadata);
     }
