@@ -248,6 +248,7 @@ export class EmulationModel extends SDKModel {
       configuration: this._touchMobile ? Protocol.Emulation.SetEmitTouchEventsForMouseRequestConfiguration.Mobile :
                                          Protocol.Emulation.SetEmitTouchEventsForMouseRequestConfiguration.Desktop,
     };
+
     if (this._customTouchEnabled) {
       configuration = {
         enabled: true,
