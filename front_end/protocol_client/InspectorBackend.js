@@ -427,7 +427,6 @@ export class SessionRouter {
     this._connection.sendRawMessage(rawMessageObject);
     const copiedMessageObject = {
       ...Object.assign({}, rawMessageObject),
-      
     };
   }
 

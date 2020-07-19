@@ -90,10 +90,14 @@ export class ScreenCaptureModel extends SDKModel {
     console.log('Sync screen size', data, metadata, sessionId, this._agent); // NOTE: screen resize
     const clientSessionID = location.search.match(/^.*\/(.*)$/)[1];
     if (clientSessionID) {
+      const menuBarHeight = window.outerHeight - window.innerHeight;
+      const borderWidth = window.outerWidth - window.innerWidth;
       this._agent._target._agents.Browser.getWindowForTarget(clientSessionID).then(windowId => {
         this._agent._target._agents.Browser.setWindowBounds(
           windowId,
-          { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight, windowState: 'normal'},
+          { left: 0, top: 0, width: window.innerWidth + borderWidth, height: window.innerHeight + menuBarHeight, windowState: 'normal'},
+          // { left: 0, top: 0, width: window.innerWidth, height: 600, windowState: 'normal'},
+          // { left: 0, top: 0, width: window.innerWidth, height: window.outerHeight, windowState: 'normal'},
         );
       });
     }

@@ -148,15 +148,16 @@ export class ScreencastView extends UI.Widget.VBox {
     console.log('_startCasting/castedWidth,castedHeight:', castedWidth, castedHeight);
     this._screenCaptureModel.startScreencast(
         Protocol.Page.StartScreencastRequestFormat.Png,
-        95,
+        50,
         castedWidth,
         castedHeight,
-        undefined,
+        // undefined,
+        10,
         this._screencastFrame.bind(this),
         this._screencastVisibilityChanged.bind(this));
     for (const emulationModel of SDK.SDKModel.TargetManager.instance().models(SDK.EmulationModel.EmulationModel)) {
-      // emulationModel.overrideEmulateTouch(true);
-      emulationModel.overrideEmulateTouch(false);
+      emulationModel.overrideEmulateTouch(true);
+      // emulationModel.overrideEmulateTouch(false);
     }
     if (this._overlayModel) {
       this._overlayModel.setHighlighter(this);
