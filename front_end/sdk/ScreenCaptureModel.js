@@ -86,10 +86,18 @@ export class ScreenCaptureModel extends SDKModel {
    */
   screencastFrame({data, metadata, sessionId}) {
     this._agent.invoke_screencastFrameAck({sessionId});
+
     console.log('Sync screen size', data, metadata, sessionId, this._agent); // NOTE: screen resize
-    // this._agent._target._router.sendMessage;
-    // this._agent._sendMessageToBackendPromise;
-    // debugger;
+    const clientSessionID = location.search.match(/^.*\/(.*)$/)[1];
+    if (clientSessionID) {
+      this._agent._target._agents.Browser.getWindowForTarget('9899505622BDF4DCC04E0357F61A1D00').then(windowId => {
+        this._agent._target._agents.Browser.setWindowBounds(
+          windowId,
+          { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight, windowState: 'normal'},
+        );
+      });
+    }
+
     if (this._onScreencastFrame) {
       this._onScreencastFrame.call(null, data, metadata);
     }
