@@ -423,7 +423,7 @@ export class SessionRouter {
     }
     session.callbacks.set(messageId, callback);
     const rawMessageObject = JSON.stringify(messageObject);
-    console.log('rawMessageObject:', rawMessageObject);
+    // console.log('rawMessageObject:', rawMessageObject);
     this._connection.sendRawMessage(rawMessageObject);
     const copiedMessageObject = {
       ...Object.assign({}, rawMessageObject),

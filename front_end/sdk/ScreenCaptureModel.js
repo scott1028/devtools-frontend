@@ -93,13 +93,29 @@ export class ScreenCaptureModel extends SDKModel {
       // There are some extension installed in your chrome which will affetc the height value.
       const menuBarHeight = window.outerHeight - window.innerHeight;
       const borderWidth = window.outerWidth - window.innerWidth;
-      // const borderWidth = 200;
-      this._agent._target._agents.Browser.getWindowForTarget(clientSessionID).then(windowId => {
+      window.cdpAgent = this._agent._target._agents;
+      this._agent._target._agents.Browser.getWindowForTarget(clientSessionID).then(async windowId => {
+        // this._agent._target._agents.Browser.getWindowForTarget('9CFF84E39569F876407A3C3BB70646C6').then(v => console.log(v));
+        // NOTE: run script in remote instance
+        // cdpAgent.Runtime.evaluate('window.location.toString()').then(c => {debugger})
+        const serializedClientBound = await cdpAgent.Runtime.evaluate(`(() => {
+          return JSON.stringify({
+            outerWidth: window.outerWidth,
+            outerHeight: window.outerHeight,
+            innerWidth: window.innerWidth,
+            innerHeight: window.innerHeight,
+          });
+        })()`);
+        const clientBound = JSON.parse(serializedClientBound.value);
+        const clientMenuBarHeight = clientBound.outerHeight - clientBound.innerHeight;
+        const clientBorderWidth = clientBound.outerWidth - clientBound.innerWidth;
         this._agent._target._agents.Browser.setWindowBounds(
           windowId,
-          { left: -borderWidth, top: -menuBarHeight, width: window.innerWidth + borderWidth, height: window.innerHeight + menuBarHeight, windowState: 'normal'},
+          // { left: 0, top: 0, width: window.innerWidth + borderWidth, height: window.innerHeight + menuBarHeight, windowState: 'normal'},
           // { left: 0, top: 0, width: window.innerWidth, height: 600, windowState: 'normal'},
-          // { left: 0, top: 0, width: window.innerWidth, height: window.outerHeight, windowState: 'normal'},
+          // { left: 0, top: 0, width: window.innerWidth + borderWidth, height: window.innerHeight + menuBarHeight, windowState: 'normal'},
+          { left: 0, top: 0, width: window.innerWidth + clientBorderWidth, height: window.innerHeight + clientMenuBarHeight, windowState: 'normal'},
+          // { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight, windowState: 'fullscreen'},
         );
       });
     }
